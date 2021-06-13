@@ -1,0 +1,25 @@
+.priceProduct {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	font-size: 55px;
+    @media screen and (max-width: 1200px) {
+    	font-size: 45px;
+    }
+
+    @media screen and (max-width: 768px) {
+    	font-size: 35px;
+    }
+}
+
+.currencyProduct {
+	margin: 12px 4px 0 0;
+	font-size: 30px;
+	@media screen and (max-width: 1200px) {
+    	font-size: 27px;
+    }
+
+    @media screen and (max-width: 768px) {
+    	font-size: 18.5px;
+    }
+}
