@@ -69,7 +69,7 @@ const initialState = {
                     errorText: 'Поле обязательно для заполнения'
                 },
                 {
-                    getErrorNumber: value => isNumber(value),
+                    getErrorNumber: value => !isNumber(value),
                     errorText: 'Только цифры'
                 },
                 {
@@ -112,7 +112,7 @@ const formAddProduct = (state = initialState, action) => {
                 if(state.fields[action.inputName].required && 'getErrorEmpty' in errorType && errorType.getErrorEmpty(action.currentValue)) {
                     return (errorText = errorType.errorText, error = true);
                 }else if(action.currentValue.length) {
-                    if('getErrorNumber' in errorType && !errorType.getErrorNumber(action.currentValue)) {
+                    if('getErrorNumber' in errorType && errorType.getErrorNumber(action.currentValue)) {
                         return (errorText = errorType.errorText, error = true);
                     }else if('getErrorMinLength' in errorType && errorType.getErrorMinLength(action.currentValue)) {
                         return (errorText = errorType.errorText, error = true);

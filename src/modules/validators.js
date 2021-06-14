@@ -37,11 +37,15 @@ export const isErrorsForm = form =>  {
             if((field.required && 'getErrorEmpty' in errorType) && (errorType.getErrorEmpty(field.value))) {
                 return (errorsForm = true);
             }else if(field.value.length) {
-                if('getErrorWords' in errorType && !errorType.getErrorWords(field.value)) {
+                if('getErrorWords' in errorType && errorType.getErrorWords(field.value)) {
                     return (errorsForm = true);
-                }else if('getErrorNumber' in errorType && !errorType.getErrorNumber(field.value)) {
+                }else if('getErrorNumber' in errorType && errorType.getErrorNumber(field.value)) {
                     return (errorsForm = true);
-                }else if('getErrorAdminOrUser' in errorType && !errorType.getErrorAdminOrUser(field.value)) {
+                }else if('getErrorAdminOrUser' in errorType && errorType.getErrorAdminOrUser(field.value)) {
+                    return (errorsForm = true);
+                }else if('getErrorEmail' in errorType && errorType.getErrorEmail(field.value)) {
+                    return (errorsForm = true);
+                }else if('getErrorWithinRange' in errorType && errorType.getErrorWithinRange(field.value)) {
                     return (errorsForm = true);
                 }else if('getErrorMinLength' in errorType && errorType.getErrorMinLength(field.value)) {
                     return (errorsForm = true);

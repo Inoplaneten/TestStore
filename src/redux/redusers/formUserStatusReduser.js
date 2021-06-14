@@ -24,11 +24,11 @@ const initialState = {
                     errorText: 'Поле обязательно для заполнения'
                 },
                 {
-                    getErrorWords: value => isWords(value),
+                    getErrorWords: value => !isWords(value),
                     errorText: 'Только буквы'
                 },
                 {
-                    getErrorAdminOrUser: value => isAdminOrUser(value),
+                    getErrorAdminOrUser: value => !isAdminOrUser(value),
                     errorText: 'Введите статус: Админ либо Пользователь'
                 },
                 {
@@ -55,7 +55,7 @@ const initialState = {
                     errorText: 'Поле обязательно для заполнения'
                 },
                 {
-                    getErrorEmail: value => isEmail(value),
+                    getErrorEmail: value => !isEmail(value),
                     errorText: 'Введите email'
                 },
                 {
@@ -199,11 +199,11 @@ const formUserStatus = (state = initialState, action) => {
                 if(state.fields[action.inputName].required && 'getErrorEmpty' in errorType && errorType.getErrorEmpty(action.currentValue)) {
                     return (errorText = errorType.errorText, error = true);
                 }else if(action.currentValue.length) {
-                    if('getErrorWords' in errorType && !errorType.getErrorWords(action.currentValue)) {
+                    if('getErrorWords' in errorType && errorType.getErrorWords(action.currentValue)) {
                         return (errorText = errorType.errorText, error = true);
-                    }else if('getErrorEmail' in errorType && !errorType.getErrorEmail(action.currentValue)) {
+                    }else if('getErrorEmail' in errorType && errorType.getErrorEmail(action.currentValue)) {
                         return (errorText = errorType.errorText, error = true);
-                    }else if('getErrorAdminOrUser' in errorType && !errorType.getErrorAdminOrUser(action.currentValue)) {
+                    }else if('getErrorAdminOrUser' in errorType && errorType.getErrorAdminOrUser(action.currentValue)) {
                         return (errorText = errorType.errorText, error = true);
                     }else if('getErrorMinLength' in errorType && errorType.getErrorMinLength(action.currentValue)) {
                         return (errorText = errorType.errorText, error = true);
