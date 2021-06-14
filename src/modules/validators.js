@@ -41,6 +41,8 @@ export const isErrorsForm = form =>  {
                     return (errorsForm = true);
                 }else if('getErrorNumber' in errorType && !errorType.getErrorNumber(field.value)) {
                     return (errorsForm = true);
+                }else if('getErrorAdminOrUser' in errorType && !errorType.getErrorAdminOrUser(field.value)) {
+                    return (errorsForm = true);
                 }else if('getErrorMinLength' in errorType && errorType.getErrorMinLength(field.value)) {
                     return (errorsForm = true);
                 }else if('getErrorMaxLength' in errorType && errorType.getErrorMaxLength(field.value)) {
