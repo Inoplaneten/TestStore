@@ -8,7 +8,7 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { saveState } from './localStorage';
 
-const сonnectReducers = combineReducers({
+const connectReducers = combineReducers({
     appInitialized,
     products,
     auth,
@@ -17,7 +17,7 @@ const сonnectReducers = combineReducers({
     menu
 });
 
-let store = createStore(сonnectReducers, applyMiddleware(thunkMiddleware));
+let store = createStore(connectReducers, applyMiddleware(thunkMiddleware));
 
 store.subscribe(() => saveState('products', store.getState().products.dataProducts));
 
