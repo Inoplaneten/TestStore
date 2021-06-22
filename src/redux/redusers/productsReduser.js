@@ -1,13 +1,13 @@
 import { loadState } from '../localStorage';
 import { productsLocal } from '../../localData/localData';
 
-const GET_PRODUCTS_BEGIN = 'GET_PRODUCTS_BEGIN',
-      GET_PRODUCTS_SUCCESS = 'GET_PRODUCTS_SUCCES',
-      ADD_PRODUCT = 'ADD_PRODUCT',
-      REMOVE_PRODUCT = 'REMOVE_PRODUCT',
-      REMOVE_PRODUCTS = 'REMOVE_PRODUCTS',
-      GET_PRODUCTS_FAILURE = 'GET_PRODUCTS_FAILURE',
-      GET_GENERAL_PRODUCTS_INFO = 'GET_GENERAL_PRODUCTS_INFO';
+const GET_PRODUCTS_BEGIN = 'online-store/products/GET_PRODUCTS_BEGIN',
+      GET_PRODUCTS_SUCCESS = 'online-store/products/GET_PRODUCTS_SUCCES',
+      ADD_PRODUCT = 'online-store/products/ADD_PRODUCT',
+      REMOVE_PRODUCT = 'online-store/products/REMOVE_PRODUCT',
+      REMOVE_PRODUCTS = 'online-store/products/REMOVE_PRODUCTS',
+      GET_PRODUCTS_FAILURE = 'online-store/products/GET_PRODUCTS_FAILURE',
+      GET_GENERAL_PRODUCTS_INFO = 'online-store/products/GET_GENERAL_PRODUCTS_INFO';
 
 const initialState = {
     dataProducts: [],
@@ -16,7 +16,7 @@ const initialState = {
     totalPrice: null,
     averagePrice: null,
     quantity: null
-}
+};
 
 const products = (state = initialState, action) => {
     switch(action.type) {
@@ -64,49 +64,47 @@ const products = (state = initialState, action) => {
         default: 
             return state;
     }
-}
+};
 
-export const setProductsBegin = () => ({type: GET_PRODUCTS_BEGIN})
+export const setProductsBegin = () => ({type: GET_PRODUCTS_BEGIN});
 
-export const setProductsSuccess = data => ({type: GET_PRODUCTS_SUCCESS, payload: data})
+export const setProductsSuccess = data => ({type: GET_PRODUCTS_SUCCESS, payload: data});
 
-export const setAddProduct = data => ({ type: ADD_PRODUCT, payload: data })
+export const setAddProduct = data => ({ type: ADD_PRODUCT, payload: data });
 
-export const setReomoveProduct = id => ({ type: REMOVE_PRODUCT, id })
+export const setRemoveProduct = id => ({ type: REMOVE_PRODUCT, id });
 
-export const setReomoveProducts = () => ({ type: REMOVE_PRODUCTS })
+export const setRemoveProducts = () => ({ type: REMOVE_PRODUCTS });
 
-export const setProductsFailure = () => ({type: GET_PRODUCTS_FAILURE})
+export const setProductsFailure = () => ({type: GET_PRODUCTS_FAILURE});
 
-export const setGeneralPoductsInfo = () => ({type: GET_GENERAL_PRODUCTS_INFO})
+export const setGeneralPoductsInfo = () => ({type: GET_GENERAL_PRODUCTS_INFO});
 
-export const getProducts = () => dispatch => {
+export const requestProducts = () => async dispatch => {
     const archiveProducts = loadState('products');
 
     dispatch(setProductsBegin());
 
-    return (async () => {
-        const response = await productsLocal.getProducts();
+    const response = await productsLocal.getProducts();
 
-        try {
-            dispatch(setProductsSuccess(archiveProducts || response.data));
-            dispatch(setGeneralPoductsInfo());
+    try {
+        dispatch(setProductsSuccess(archiveProducts || response.data));
+        dispatch(setGeneralPoductsInfo());
 
-        } catch(error) {
-            dispatch(setProductsFailure());
-            dispatch(setGeneralPoductsInfo());
-        }
-    })();
-}
+    } catch(error) {
+        dispatch(setProductsFailure());
+        dispatch(setGeneralPoductsInfo());
+    }
+};
 
 export const getTheRemovalOfProduct = id => dispatch => {
-    dispatch(setReomoveProduct(id));
+    dispatch(setRemoveProduct(id));
     dispatch(setGeneralPoductsInfo());
-}
+};
 
 export const getTheRemovalOfProducts= () => dispatch => {
-    dispatch(setReomoveProducts());
+    dispatch(setRemoveProducts());
     dispatch(setGeneralPoductsInfo());
-}
+};
 
 export { products };

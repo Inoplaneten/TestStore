@@ -11,7 +11,7 @@ const AddProductPage = () => {
             <FormAddProductContainer/>
         </Section>
     )
-}
+};
 
 export default compose(
     withAuthNoAdminRedirect,

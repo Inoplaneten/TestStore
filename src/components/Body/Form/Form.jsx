@@ -10,6 +10,6 @@ const Form = props => {
             {props.error && <span className={classes.errorMessage}>{props.errorText}</span>}
         </>
     )
-}
+};
 
 export { Form };

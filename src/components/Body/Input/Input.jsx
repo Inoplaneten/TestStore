@@ -30,6 +30,6 @@ const Input = props => {
             }
         </div>
     )
-}
+};
 
 export { Input };

@@ -1,13 +1,14 @@
 import React from 'react';
-import { Route } from "react-router";
+import { Switch, Route, Redirect } from "react-router";
 import StorePage from '../pages/StorePage/StorePage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import AddProductPage from '../pages/AddProductPage/AddProductPage';
 import NoAdminPage from '../pages/NoAdminPage/NoAdminPage';
+import NonExistentPage from '../pages/NonExistentPage/NonExistentPage';
 
 const Body = () => {
     return (
-        <>
+        <Switch>
             <Route 
                 path='/'
                 exact
@@ -32,7 +33,16 @@ const Body = () => {
             >
                 <NoAdminPage/>
             </Route>
-        </>
+            <Route 
+                path='/non-existent-page' 
+                exact
+            >
+                <NonExistentPage/>
+            </Route>
+            <Redirect 
+                to='/non-existent-page'
+            />
+        </Switch>
     )
 }
 

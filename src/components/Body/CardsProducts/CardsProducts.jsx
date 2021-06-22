@@ -28,6 +28,6 @@ const CardsProducts = ({products, isAdmin, getTheRemovalOfProduct, ...props}) =>
             })}
         </div>
     )
-}
+};
 
 export { CardsProducts };

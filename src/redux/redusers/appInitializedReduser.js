@@ -1,12 +1,12 @@
-import { getAuthAdmin, setAuthUser } from './authReduser';
-import { getProducts } from './productsReduser';
+import { requestAuthAdmin, setAuthUser } from './authReduser';
+import { requestProducts } from './productsReduser';
 import { loadState } from '../localStorage';
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
+const INITIALIZED_SUCCESS = 'online-store/appInitialized/INITIALIZED_SUCCESS';
 
 const initialState = {
     initialized: false
-}
+};
 
 const appInitialized = (state = initialState, action) => {
     switch(action.type) {
@@ -18,20 +18,25 @@ const appInitialized = (state = initialState, action) => {
         default:
             return state;    
     }
-}
+};
 
 export const initializedSuccess = () => ({ type: INITIALIZED_SUCCESS });
 
-export const initializeApp = () => dispatch => {
-    let promiseAuthAdmin = dispatch(getAuthAdmin()),
-        promiseGetProducts = dispatch(getProducts());
+export const initializeApp = () => async dispatch => {
+    let promiseAuthAdmin = dispatch(requestAuthAdmin()),
+        promiseGetProducts = dispatch(requestProducts());
 
-    Promise.all([promiseAuthAdmin, promiseGetProducts]).then(() => {
+    await Promise.all([promiseAuthAdmin, promiseGetProducts]);
+
+    try {
         dispatch(initializedSuccess());
         
         let isAuthUser = loadState('userStatus') !== undefined && loadState('userStatus');
+        
         dispatch(setAuthUser(isAuthUser));
-    });
-}
+    } catch (error){
+
+    }
+};
 
 export { appInitialized };

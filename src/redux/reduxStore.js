@@ -2,7 +2,7 @@ import { products } from './redusers/productsReduser';
 import { appInitialized } from './redusers/appInitializedReduser';
 import { auth } from './redusers/authReduser';
 import { formUserStatus } from './redusers/formUserStatusReduser';
-import { formAddProduct } from './redusers/formAddProduct';
+import { formAddProduct } from './redusers/formAddProductReduser';
 import { menu } from './redusers/menuReduser';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';

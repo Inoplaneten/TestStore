@@ -22,6 +22,6 @@ const CardProduct = ({product, ...props}) => {
             {props.children}
         </div>
     )
-}
+};
 
 export { CardProduct };

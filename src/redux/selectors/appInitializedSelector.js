@@ -1,0 +1,1 @@
+export const getInitializedApp = state => state.appInitialized.initialized;

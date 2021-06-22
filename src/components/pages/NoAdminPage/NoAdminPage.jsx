@@ -13,7 +13,7 @@ const NoAdminPage = () => {
             />
         </Section>
     )
-}
+};
 
 export default compose(
     withAuthRedirect,

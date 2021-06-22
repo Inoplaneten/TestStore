@@ -1,11 +1,12 @@
 import { setLogin } from '../redusers/authReduser';
-import { isEmpty, isMinLength, isMaxLength, isWords, isEmail, isAdminOrUser, isErrorsForm } from '../../modules/validators';
+import { isEmpty, isMinLength, isMaxLength, isWords, isEmail, isAdminOrUser, isErrorsForm } from '../../utils/validators';
+import { getFieldErrors } from '../../utils/getFieldErrors';
 
-const UPDATE_INPUT_VALUE_FORM_USER_STATUS  = 'UPDATE_INPUT_VALUE_FORM_USER_STATUS',
-      NOVALIDATE_INPUT_VALUE_FORM_USER_STATUS = 'NOVALIDATE_INPUT_VALUE_FORM_USER_STATUS',
-      NOVALIDATE_FORM_USER_STATUS = 'NOVALIDATE_FORM_USER_STATUS',
-      GET_WAIT_FORM_USER_STATUS = 'GET_WAIT_FORM_USER_STATUS',
-      SUCCES_FORM_USER_STATUS = 'SUCCES_FORM_USER_STATUS';
+const UPDATE_INPUT_VALUE_FORM_USER_STATUS  = 'online-store/formUserStatus/UPDATE_INPUT_VALUE_FORM_USER_STATUS',
+      NOVALIDATE_INPUT_VALUE_FORM_USER_STATUS = 'online-store/formUserStatus/NOVALIDATE_INPUT_VALUE_FORM_USER_STATUS',
+      NOVALIDATE_FORM_USER_STATUS = 'online-store/formUserStatus/NOVALIDATE_FORM_USER_STATUS',
+      GET_WAIT_FORM_USER_STATUS = 'online-store/formUserStatus/GET_WAIT_FORM_USER_STATUS',
+      SUCCES_FORM_USER_STATUS = 'online-store/formUserStatus/SUCCES_FORM_USER_STATUS';
 
 const initialState = {
     name: 'formUserStatus',
@@ -100,7 +101,7 @@ const initialState = {
     isUser: false,
     error: false,
     errorText: 'Неверный логин или пароль'
-}
+};
 
 const formUserStatus = (state = initialState, action) => {
     switch(action.type) {
@@ -192,28 +193,7 @@ const formUserStatus = (state = initialState, action) => {
             }
              
         case NOVALIDATE_INPUT_VALUE_FORM_USER_STATUS:
-            let error,
-                errorText;
-
-            'validators' in state.fields[action.inputName] && state.fields[action.inputName].validators.some(errorType => {
-                if(state.fields[action.inputName].required && 'getErrorEmpty' in errorType && errorType.getErrorEmpty(action.currentValue)) {
-                    return (errorText = errorType.errorText, error = true);
-                }else if(action.currentValue.length) {
-                    if('getErrorWords' in errorType && errorType.getErrorWords(action.currentValue)) {
-                        return (errorText = errorType.errorText, error = true);
-                    }else if('getErrorEmail' in errorType && errorType.getErrorEmail(action.currentValue)) {
-                        return (errorText = errorType.errorText, error = true);
-                    }else if('getErrorAdminOrUser' in errorType && errorType.getErrorAdminOrUser(action.currentValue)) {
-                        return (errorText = errorType.errorText, error = true);
-                    }else if('getErrorMinLength' in errorType && errorType.getErrorMinLength(action.currentValue)) {
-                        return (errorText = errorType.errorText, error = true);
-                    }else if('getErrorMaxLength' in errorType && errorType.getErrorMaxLength(action.currentValue)) {
-                        return (errorText = errorType.errorText, error = true);
-                    }
-                }
-
-                return (errorText = null, error = false);
-            });
+            let { error, errorText } = getFieldErrors(state.fields[action.inputName], action.currentValue);
 
             return {
                 ...state,
@@ -264,19 +244,19 @@ export const setUpdateFormUserStatusDataField = (currentValue, inputName) => ({
     type: UPDATE_INPUT_VALUE_FORM_USER_STATUS,
     currentValue,
     inputName
-})
+});
 
 export const setValidateFormUserStatusField = (currentValue, inputName) => ({
     type: NOVALIDATE_INPUT_VALUE_FORM_USER_STATUS,
     currentValue,
     inputName
-})
+});
 
-export const setValidateFormUserStatus= () => ({ type: NOVALIDATE_FORM_USER_STATUS })
+export const setValidateFormUserStatus= () => ({ type: NOVALIDATE_FORM_USER_STATUS });
 
-export const setGetWaitFormUserStatus = () => ({ type: GET_WAIT_FORM_USER_STATUS })
+export const setGetWaitFormUserStatus = () => ({ type: GET_WAIT_FORM_USER_STATUS });
 
-export const setSuccesFormUserStatus = () => ({ type: SUCCES_FORM_USER_STATUS })
+export const setSuccesFormUserStatus = () => ({ type: SUCCES_FORM_USER_STATUS });
 
 export const handleSubmitFormUserStatus = (event, form) => dispatch => {
     if (event.keyCode === 13) {
@@ -294,6 +274,6 @@ export const handleSubmitFormUserStatus = (event, form) => dispatch => {
 
         dispatch(setLogin(userEmail.value, userPassword.value, true));
     }
-}
+};
 
 export { formUserStatus };

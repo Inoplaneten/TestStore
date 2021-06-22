@@ -1,0 +1,1 @@
+export const getActiveMenu = state => state.menu.isActive;

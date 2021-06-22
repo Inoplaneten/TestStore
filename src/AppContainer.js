@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import App from './App';
+import { getInitializedApp } from '../src/redux/selectors/appInitializedSelector';
 import { initializeApp } from '../src/redux/redusers/appInitializedReduser';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
-const AppContainer = ({initializeApp, setAuthUser, ...props}) => {
+const AppContainer = ({initializeApp, ...props}) => {
     const theme = createMuiTheme({
         palette: {
             primary: {
@@ -40,10 +41,10 @@ const AppContainer = ({initializeApp, setAuthUser, ...props}) => {
             <App {...props}/>
         </ThemeProvider>
     )
-}
+};
 
 const mapStateToProps = state => ({
-    initialized: state.appInitialized.initialized
+    initialized: getInitializedApp(state)
 })
 
 export default connect(mapStateToProps, { initializeApp })(AppContainer);

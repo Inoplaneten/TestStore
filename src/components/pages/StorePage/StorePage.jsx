@@ -10,7 +10,7 @@ const StorePage = () => {
             <CardsProductsContainer/>
         </Section>
     )
-}
+};
 
 export default compose(
     withAuthRedirect

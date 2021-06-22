@@ -8,6 +8,6 @@ const Preloader = props => {
             <img src={loader} alt="Загрузчик"/>
         </div>
     )
-}
+};
 
 export { Preloader };

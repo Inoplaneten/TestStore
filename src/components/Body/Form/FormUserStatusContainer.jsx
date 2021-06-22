@@ -3,10 +3,21 @@ import { connect } from 'react-redux';
 import { Form } from './Form';
 import { Input } from '../Input/Input';
 import { Button } from '@material-ui/core';
+import { 
+    getNameFormUserStatus, 
+    getFieldsFormUserStatus, 
+    getValidatorsFormUserStatus, 
+    getSuccesFormUserStatus, 
+    getLoadingFormUserStatus,
+    getAdminFormUserStatus,
+    getUserFormUserStatus,
+    getErrorFormUserStatus,
+    getErrorTextFormUserStatus
+} from '../../../redux/selectors/formUserStatusSelector';
 import { setUpdateFormUserStatusDataField, setValidateFormUserStatusField, handleSubmitFormUserStatus } from '../../../redux/redusers/formUserStatusReduser';
-import { getAuthUser } from '../../../redux/redusers/authReduser';
+import { requestAuthUser } from '../../../redux/redusers/authReduser';
 
-const FormUserStatusContainer = ({ formUserStatus, setUpdateFormUserStatusDataField, setValidateFormUserStatusField, getAuthUser, handleSubmitFormUserStatus }) => {
+const FormUserStatusContainer = ({ formUserStatus, setUpdateFormUserStatusDataField, setValidateFormUserStatusField, requestAuthUser, handleSubmitFormUserStatus }) => {
     return (
         <>
             <Form   
@@ -53,7 +64,7 @@ const FormUserStatusContainer = ({ formUserStatus, setUpdateFormUserStatusDataFi
                     color='primary'
                     style={{margin: '20px auto 0'}}
                     type={formUserStatus.isAdmin ? 'submit' : formUserStatus.isUser ? 'button': 'submit'}
-                    onClick={() => {formUserStatus.isUser && getAuthUser() }}
+                    onClick={() => {formUserStatus.isUser && requestAuthUser() }}
                 >
                     Войти
                 </Button>
@@ -64,22 +75,22 @@ const FormUserStatusContainer = ({ formUserStatus, setUpdateFormUserStatusDataFi
 
 const mapStateToProps = state => ({
     formUserStatus: {
-        name: state.formUserStatus.name,
-        fields: state.formUserStatus.fields,
-        validators: state.formUserStatus.validators,
-        succesForm: state.formUserStatus.succesForm,
-        isLoading: state.formUserStatus.isLoading,
-        isAdmin: state.formUserStatus.isAdmin,
-        isUser: state.formUserStatus.isUser,
-        error: state.formUserStatus.error,
-        errorText: state.formUserStatus.errorText
+        name: getNameFormUserStatus(state),
+        fields: getFieldsFormUserStatus(state),
+        validators: getValidatorsFormUserStatus(state),
+        succesForm: getSuccesFormUserStatus(state),
+        isLoading: getLoadingFormUserStatus(state),
+        isAdmin: getAdminFormUserStatus(state),
+        isUser: getUserFormUserStatus(state),
+        error: getErrorFormUserStatus(state),
+        errorText: getErrorTextFormUserStatus(state)
     }
 })
 
 const mapDispatchToProps =  {
     setUpdateFormUserStatusDataField, 
     setValidateFormUserStatusField, 
-    getAuthUser,
+    requestAuthUser,
     handleSubmitFormUserStatus
 }
 

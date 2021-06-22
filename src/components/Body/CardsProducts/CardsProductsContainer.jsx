@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { CardsProducts } from './CardsProducts';
 import { Button } from '@material-ui/core';
+import { getProducts } from '../../../redux/selectors/productsSelector';
+import { getAuthAdmin } from '../../../redux/selectors/authSelector';
 import { getTheRemovalOfProducts, getTheRemovalOfProduct } from '../../../redux/redusers/productsReduser';
 
 const CardsProductContainer = ({products, getTheRemovalOfProducts, isAdmin, ...props}) => {
@@ -26,16 +28,16 @@ const CardsProductContainer = ({products, getTheRemovalOfProducts, isAdmin, ...p
             } 
         </>
     )
-}
+};
 
 const mapStateToProps = state => ({
-    products: state.products.dataProducts,
-    isAdmin: state.auth.admin.isAuth
-})
+    products: getProducts(state),
+    isAdmin: getAuthAdmin(state)
+});
 
 const mapDispatchToProps =  {
     getTheRemovalOfProducts,
     getTheRemovalOfProduct,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardsProductContainer);

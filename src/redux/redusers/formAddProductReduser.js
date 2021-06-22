@@ -1,10 +1,11 @@
 import { setAddProduct, setGeneralPoductsInfo } from '../redusers/productsReduser';
-import { isEmpty, isMinLength, isNumber, isMaxLength, isErrorsForm } from '../../modules/validators';
+import { isEmpty, isMinLength, isNumber, isMaxLength, isErrorsForm } from '../../utils/validators';
+import { getFieldErrors } from '../../utils/getFieldErrors';
 
-const UPDATE_INPUT_VALUE_FORM_ADD_PRODUCT  = 'UPDATE_INPUT_VALUE_FORM_ADD_PRODUCT',
-      NOVALIDATE_INPUT_VALUE_FORM_ADD_PRODUCT = 'NOVALIDATE_INPUT_VALUE_FORM_ADD_PRODUCT',
-      GET_WAIT_FORM_ADD_PRODUCT = 'GET_WAIT_FORM_ADD_PRODUCT',
-      SUCCES_FORM_ADD_PRODUCT = 'SUCCES_FORM_ADD_PRODUCTS';
+const UPDATE_INPUT_VALUE_FORM_ADD_PRODUCT  = 'online-store/formAddProduct/UPDATE_INPUT_VALUE_FORM_ADD_PRODUCT',
+      NOVALIDATE_INPUT_VALUE_FORM_ADD_PRODUCT = 'online-store/formAddProduct/NOVALIDATE_INPUT_VALUE_FORM_ADD_PRODUCT',
+      GET_WAIT_FORM_ADD_PRODUCT = 'online-store/formAddProduct/GET_WAIT_FORM_ADD_PRODUCT',
+      SUCCES_FORM_ADD_PRODUCT = 'online-store/formAddProduct/SUCCES_FORM_ADD_PRODUCTS';
 
 const initialState = {
     name: 'formAddProduct',
@@ -87,7 +88,7 @@ const initialState = {
     validators: { getErrorsForm: form => isErrorsForm(form) },
     succesForm: false,
     isLoading: false
-}
+};
 
 const formAddProduct = (state = initialState, action) => {
     switch(action.type) {
@@ -105,24 +106,7 @@ const formAddProduct = (state = initialState, action) => {
             }
              
         case NOVALIDATE_INPUT_VALUE_FORM_ADD_PRODUCT:
-            let error,
-                errorText;
-
-            'validators' in state.fields[action.inputName] && state.fields[action.inputName].validators.some(errorType => {
-                if(state.fields[action.inputName].required && 'getErrorEmpty' in errorType && errorType.getErrorEmpty(action.currentValue)) {
-                    return (errorText = errorType.errorText, error = true);
-                }else if(action.currentValue.length) {
-                    if('getErrorNumber' in errorType && errorType.getErrorNumber(action.currentValue)) {
-                        return (errorText = errorType.errorText, error = true);
-                    }else if('getErrorMinLength' in errorType && errorType.getErrorMinLength(action.currentValue)) {
-                        return (errorText = errorType.errorText, error = true);
-                    }else if('getErrorMaxLength' in errorType && errorType.getErrorMaxLength(action.currentValue)) {
-                        return (errorText = errorType.errorText, error = true);
-                    }
-                }
-
-                return (errorText = null, error = false);
-            });
+            let { error, errorText } = getFieldErrors(state.fields[action.inputName], action.currentValue);
 
             return {
                 ...state,
@@ -167,17 +151,17 @@ export const setUpdateFormAddProductDataField = (currentValue, inputName) => ({
     type: UPDATE_INPUT_VALUE_FORM_ADD_PRODUCT,
     currentValue,
     inputName
-})
+});
 
 export const setValidateFormAddProductField = (currentValue, inputName) => ({
     type: NOVALIDATE_INPUT_VALUE_FORM_ADD_PRODUCT,
     currentValue,
     inputName
-})
+});
 
-export const setGetWaitFormAddProduct = () => ({ type: GET_WAIT_FORM_ADD_PRODUCT })
+export const setGetWaitFormAddProduct = () => ({ type: GET_WAIT_FORM_ADD_PRODUCT });
 
-export const setSuccesFormAddProduct = () => ({ type: SUCCES_FORM_ADD_PRODUCT })
+export const setSuccesFormAddProduct = () => ({ type: SUCCES_FORM_ADD_PRODUCT });
 
 export const handleSubmitFormAddProduct = (event, form) => dispatch => {
     event.preventDefault();
@@ -200,6 +184,6 @@ export const handleSubmitFormAddProduct = (event, form) => dispatch => {
         dispatch(setGetWaitFormAddProduct());
         dispatch(setSuccesFormAddProduct());
     }
-}
+};
 
 export { formAddProduct };

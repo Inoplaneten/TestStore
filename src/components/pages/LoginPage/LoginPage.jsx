@@ -15,7 +15,7 @@ const LoginPage = () => {
             <FormUserStatusContainer/>
         </Section>
     )
-}
+};
 
 export default compose(
     withAuthAdminRedirect,
