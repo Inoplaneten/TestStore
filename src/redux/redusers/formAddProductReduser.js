@@ -104,7 +104,6 @@ const formAddProduct = (state = initialState, action) => {
                     }
                 }
             }
-             
         case NOVALIDATE_INPUT_VALUE_FORM_ADD_PRODUCT:
             let { error, errorText } = getFieldErrors(state.fields[action.inputName], action.currentValue);
 

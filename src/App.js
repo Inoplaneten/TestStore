@@ -4,14 +4,14 @@ import { Body } from './components/Body/Body';
 import { Footer } from './components/Footer/Footer';
 import { Preloader } from './components/Preloader/Preloader';
 
-const App = props => {
+const App = ({initialized}) => {
   return (
     <>
       <HeaderContainer/>
       <Body/>
       <Footer/>
       <Preloader 
-        initialized={props.initialized}
+        initialized={initialized}
       />
     </>
   )

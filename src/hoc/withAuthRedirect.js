@@ -6,11 +6,11 @@ import { getAuthAdmin, getAuthUser } from '../redux/selectors/authSelector';
 const mapStateToPropsToRedirect = state => ({
     isAdmin: getAuthAdmin(state),
     isUser: getAuthUser(state)
-})
+});
 
 export const withAuthRedirect = Component => {
-    const RedirectComponent = props => {
-        if(!props.isAdmin && !props.isUser) {
+    const RedirectComponent = ({isAdmin, isUser, ...props}) => {
+        if(!isAdmin && !isUser) {
             return <Redirect to='/auth'/>
         }
     
@@ -20,4 +20,4 @@ export const withAuthRedirect = Component => {
     let ConnectedRedirectComponent = connect(mapStateToPropsToRedirect)(RedirectComponent)
 
     return ConnectedRedirectComponent;
-}
+};

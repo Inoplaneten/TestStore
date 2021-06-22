@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
 import { CardsProducts } from './CardsProducts';
 import { Button } from '@material-ui/core';
 import { getProducts } from '../../../redux/selectors/productsSelector';
@@ -38,6 +39,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps =  {
     getTheRemovalOfProducts,
     getTheRemovalOfProduct,
+};
+
+CardsProductContainer.propTypes = {
+    products: PropTypes.array,
+    isAdmin: PropTypes.bool
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardsProductContainer);

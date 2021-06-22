@@ -6,7 +6,7 @@ const NonExistentPage = () => {
     return (
         <Section>
             <SectionTitle 
-                title='Ошибка 404! Такой страницы не существует'
+                title='Ошибка 404! Такой страницы не существует!'
             />
         </Section>
     )
